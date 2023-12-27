@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import json
 import argparse
@@ -76,19 +77,45 @@ def calculate_comment_percentage(file_paths, min_ratio):
     else:
         print("No files found or files are empty.")
 
-def find_files(root_folder, config):
+def is_excluded_directory(root, exclude_dir, warned_patterns):
+    for pattern in exclude_dir:
+        if pattern in warned_patterns:
+            continue
+        try:
+            if re.search(pattern, root):
+                return True
+        except re.error as e:
+            if pattern not in warned_patterns:
+                print(f"Avertissement : Expression régulière invalide '{pattern}' - {e}")
+                warned_patterns.add(pattern)
+    return False
+
+def is_excluded_file(file, include_ext, exclude_ext, config):
+    file_extension = os.path.splitext(file)[1].lower()
+    if include_ext and file_extension not in include_ext:
+        return True
+    if exclude_ext and file_extension in exclude_ext:
+        return True
+    if file_extension not in config["comment_symbols_map"]:
+        return True
+    return False
+
+def find_files(root_folder, config, include_ext=None, exclude_ext=None, exclude_dir=None):
     found_files = []
     script_file = os.path.abspath(sys.argv[0])
+    warned_patterns = set()
 
     for root, _, file_list in os.walk(root_folder):
+        if exclude_dir and is_excluded_directory(root, exclude_dir, warned_patterns):
+            continue
+
         for file in file_list:
             full_path = os.path.join(root, file)
-            if full_path != script_file:
-                file_extension = os.path.splitext(file)[1].lower()
-                if file_extension in config["comment_symbols_map"]:
-                    found_files.append(full_path)
+            if full_path != script_file and not is_excluded_file(file, include_ext, exclude_ext, config):
+                found_files.append(full_path)
 
     return found_files
+
 
 if __name__ == "__main__":
     colorama.init()
@@ -97,9 +124,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Calculate Comment Percentage in Code')
     parser.add_argument('--path', type=str, default=os.getcwd(), help='Path to the project folder (default: current directory)')
     parser.add_argument('--ratio', type=float, default=30, help='Minimum acceptable comment percentage (default: 30)')
+    parser.add_argument('--include-ext', nargs='*', help='Extensions to include (e.g., .py .js)')
+    parser.add_argument('--exclude-ext', nargs='*', help='Extensions to exclude (e.g., .md .txt)')
+    parser.add_argument('--exclude-dir', nargs='*', help='Directories to exclude (supports regex)')
     args = parser.parse_args()
 
-    file_paths = find_files(args.path, config)
+    file_paths = find_files(args.path, config, args.include_ext, args.exclude_ext, args.exclude_dir)
 
     if not file_paths:
         print("No matching file found or empty folder.")

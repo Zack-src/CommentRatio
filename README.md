@@ -19,10 +19,14 @@ CommentRatio est un outil en ligne de commande conçu pour analyser les fichiers
 ## Utilisation
 Pour exécuter le script, utilisez la ligne de commande en naviguant vers le dossier contenant le script `CommentRatio.py` et exécutez la commande suivante :
 
-python CommentRatio.py **--path** <chemin_du_dossier> **--ratio** <ratio_minimum>
+python CommentRatio.py **--path** &lt;chemin_du_dossier&gt; **--ratio** &lt;ratio_minimum&gt;[**--include-ext** &lt;extensions&gt;] [**--exclude-ext** &lt;extensions&gt;] [**--exclude-dir** &lt;regex&gt;]
 
-- Si `--path` n'est pas spécifié, le script analysera le dossier courant.
-- Si `--ratio` n'est pas spécifié, la valeur par defaut ce met à 30.
+Options :
+- `--path` : Chemin vers le dossier à analyser. Si non spécifié, le script analysera le dossier courant.
+- `--ratio` : Pourcentage minimum de commentaires accepté. Par défaut à 30 si non spécifié.
+- `--include-ext` : Inclure seulement les fichiers avec les extensions spécifiées. Si non spécifié, aucun filtre d'extension n'est appliqué.
+- `--exclude-ext` : Exclure les fichiers avec les extensions spécifiées. Si non spécifié, aucun filtre d'exclusion n'est appliqué.
+- `--exclude-dir` : Exclure des dossiers spécifiques basés sur des regex. Si non spécifié, aucun dossier n'est exclu.
 
 
 ## Contribution

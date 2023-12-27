@@ -2,11 +2,16 @@
     "line_comment_symbols": {
       "simple": "//",
       "hash": "#",
-      "dash": "--"
+      "dash": "--",
+      "semicolon": ";",
+      "percent": "%",
+      "double_dash": "--",
+      "rem": "REM"
     },
     "block_comment_symbols": {
       "simple": ["/*", "*/"],
-      "html": ["<!--", "-->"]
+      "html": ["<!--", "-->"],
+      "brackets": ["{-", "-}"]
     },
     "comment_symbols_map": {
       ".c": {
@@ -29,6 +34,10 @@
         "line": "simple",
         "block": "simple"
       },
+      ".cuh": {
+        "line": "simple",
+        "block": "simple"
+      },
       ".py": {
         "line": "hash",
         "block": null
@@ -48,6 +57,54 @@
       ".sql": {
         "line": "dash",
         "block": "simple"
+      },
+      ".lua": {
+        "line": "semicolon",
+        "block": null
+      },
+      ".hs": {
+        "line": "dash",
+        "block": "brackets"
+      },
+      ".php": {
+        "line": "simple",
+        "block": "simple"
+      },
+      ".jsx": {
+        "line": "simple",
+        "block": "simple"
+      },
+      ".ts": {
+        "line": "simple",
+        "block": "simple"
+      },
+      ".scss": {
+        "line": "simple",
+        "block": "simple"
+      },
+      ".sass": {
+        "line": null,
+        "block": "simple"
+      },
+      ".less": {
+        "line": "simple",
+        "block": "simple"
+      },
+      ".vue": {
+        "line": "simple",
+        "block": "simple"
+      },
+      ".ruby": {
+        "line": "hash",
+        "block": null
+      },
+      ".perl": {
+        "line": "hash",
+        "block": null
+      },
+      ".coffee": {
+        "line": "hash",
+        "block": null
       }
     }
 }
