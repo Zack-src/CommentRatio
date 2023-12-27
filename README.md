@@ -10,7 +10,7 @@ CommentRatio est un outil en ligne de commande conçu pour analyser les fichiers
 - Analyse des commentaires de ligne et de bloc.
 - Calcul du pourcentage global de commentaires dans un dossier ou un projet spécifié.
 - Affichage du pourcentage de commentaires par fichier.
-
+ 
 ## Prérequis
 - Python 3.x
   - argparse
@@ -19,41 +19,30 @@ CommentRatio est un outil en ligne de commande conçu pour analyser les fichiers
 ## Utilisation
 Pour exécuter le script, utilisez la ligne de commande en naviguant vers le dossier contenant le script `CommentRatio.py` et exécutez la commande suivante :
 
-python CommentRatio.py **--path** &lt;chemin_du_dossier&gt; **--ratio** &lt;ratio_minimum&gt;[**--include-ext** &lt;extensions&gt;] [**--exclude-ext** &lt;extensions&gt;] [**--exclude-dir** &lt;regex&gt;]
+```
+python CommentRatio.py --path <chemin_du_dossier> --ratio <ratio_minimum> [--include-ext <extensions>] [--exclude-ext <extensions>] [--exclude-dir <regex>]
+```
 
 Options :
 - `--path` : Chemin vers le dossier à analyser. Si non spécifié, le script analysera le dossier courant.
-- `--ratio` : Pourcentage minimum de commentaires accepté. Par défaut à 30 si non spécifié.
-- `--include-ext` : Inclure seulement les fichiers avec les extensions spécifiées. Si non spécifié, aucun filtre d'extension n'est appliqué.
-- `--exclude-ext` : Exclure les fichiers avec les extensions spécifiées. Si non spécifié, aucun filtre d'exclusion n'est appliqué.
-- `--exclude-dir` : Exclure des dossiers spécifiques basés sur des regex. Si non spécifié, aucun dossier n'est exclu.
+- `--ratio` : Pourcentage minimum de commentaires accepté.
+- `--include-ext` : Inclure seulement les fichiers avec les extensions spécifiées.
+- `--exclude-ext` : Exclure les fichiers avec les extensions spécifiées.
+- `--exclude-dir` : Exclure des dossiers spécifiques basés sur des regex.
 
 
 ## Contribution
 Les contributions pour ajouter de nouvelles fonctionnalités, améliorer la prise en charge des langages ou corriger des bugs sont toujours les bienvenues.
 
-# To-Do List
-
 ## Améliorations à apporter
 
-### Exclusion Sélective
-- **Objectif :** Ajouter une option pour exclure certains types de fichiers ou dossiers via des expressions régulières (regex). Cela permettra une analyse plus ciblée.
 
-#### Sous-Tâches :
-  - Ajouter un argument pour exclure des extensions de fichier spécifiques.
-  - Ajouter un argument pour exclure des dossiers ou fichiers spécifiques.
+- **Prise en charge de multiples syntaxes de commentaires** : Étendre le script pour reconnaître et analyser diverses syntaxes de commentaires en fonction des langages de programmation.
 
-### Sélection Spécifique
-- **Objectif :** Permettre à l'utilisateur de spécifier des extensions, des dossiers ou des fichiers particuliers à analyser, au lieu de l'ensemble du dossier.
+- **Optimisation des performances** : Améliorer l'efficacité du script, en particulier pour les grands projets avec de nombreux fichiers.
 
-#### Sous-Tâches :
-  - Ajouter un argument pour inclure uniquement certaines extensions de fichier.
-  - Ajouter un argument pour analyser uniquement certains dossiers ou fichiers spécifiés.
+- **Documentation détaillée** : Bien que bénéfique, la mise à jour exhaustive de la documentation n'est pas une priorité immédiate.
+- **Interface utilisateur graphique** : Une interface graphique rendrait le script plus accessible, mais n'est pas prioritaire pour l'instant.
+- **Rapports exportables** : La possibilité d'exporter des rapports serait utile, mais peut être mise en attente pour l'instant.
 
-### Documentation et Aide
-- **Objectif :** Mettre à jour la documentation et l'aide intégrée au script pour refléter les nouvelles fonctionnalités et options.
-
-#### Sous-Tâches :
-  - Mettre à jour le README pour inclure les nouvelles options et arguments.
-  - Ajouter des instructions d'utilisation détaillées pour les nouvelles fonctionnalités.
 
