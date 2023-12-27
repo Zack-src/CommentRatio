@@ -1,4 +1,5 @@
 import os
+import sys
 import argparse
 
 # Symboles de commentaires de ligne
@@ -95,28 +96,40 @@ def count_comments(file_path):
 
 
 
-def calculate_comment_percentage(file_paths):
+def calculate_comment_percentage(file_paths, min_ratio):
+    max_length = max(len(path) for path in file_paths)
+
     total_comment_chars = 0
     total_chars = 0
 
     for file_path in file_paths:
         comment_chars, file_chars = count_comments(file_path)
-        #print("total :", file_chars, " ", comment_chars)
+        comment_ratio = comment_chars / file_chars * 100
+
         total_comment_chars += comment_chars
         total_chars += file_chars
-        print(f"File: {file_path}, Comment Percentage: {comment_chars / file_chars * 100:.2f}%")
+
+        file_name = file_path.ljust(max_length)
+
+        color = "\033[92m" if comment_ratio >= min_ratio else "\033[91m"
+        print(f"File: {file_name} | Comment Percentage: {color}{comment_ratio:.2f}%\033[0m")
 
     if total_chars > 0:
-        print(f"Global Comment Percentage: {total_comment_chars / total_chars * 100:.2f}%")
+        total_comment_ratio = total_comment_chars / total_chars * 100
+        color = "\033[92m" if total_comment_ratio >= min_ratio else "\033[91m"
+        print(f"Global Comment Percentage: {color}{total_comment_chars / total_chars * 100:.2f}%\033[0m")
     else:
         print("No files found or files are empty.")
 
 
 def find_files(root_folder):
     found_files = []
+    script_file = os.path.abspath(sys.argv[0])
+
     for root, _, file_list in os.walk(root_folder):
         for file in file_list:
-            if os.path.splitext(file)[1].lower() in comment_symbols_map:
+            full_path =  os.path.join(root, file)
+            if full_path != script_file and os.path.splitext(file)[1].lower() in comment_symbols_map:
                 found_files.append(os.path.join(root, file))
     return found_files
 
@@ -125,7 +138,8 @@ def find_files(root_folder):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Calculate Comment Percentage in Code')
     parser.add_argument('--path', type=str, default=os.getcwd(), help='Path to the project folder (default: current directory)')
+    parser.add_argument('--ratio', type=float, default=30, help='Minimum acceptable comment percentage (default: 30)')
     args = parser.parse_args()
 
     file_paths = find_files(args.path)
-    calculate_comment_percentage(file_paths)
+    calculate_comment_percentage(file_paths, args.ratio)

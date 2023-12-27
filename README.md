@@ -18,10 +18,10 @@ Pas d'installation nécessaire. Assurez-vous simplement que Python est installé
 ## Utilisation
 Pour exécuter le script, utilisez la ligne de commande en naviguant vers le dossier contenant le script `CommentRatio.py` et exécutez la commande suivante :
 
-python CommentRatio.py --path <chemin_du_dossier>
+python CommentRatio.py **--path** <chemin_du_dossier> **--ratio** <ratio_minimum>
 
-
-Si `--path` n'est pas spécifié, le script analysera le dossier courant.
+- Si `--path` n'est pas spécifié, le script analysera le dossier courant.
+- Si `--ratio` n'est pas spécifié, la valeur par defaut ce met à 30.
 
 Exemple :
 
@@ -32,12 +32,6 @@ Les contributions pour ajouter de nouvelles fonctionnalités, améliorer la pris
 # To-Do List
 
 ## Améliorations à apporter
-
-### Alignement des Affichages
-- **Objectif :** Harmoniser l'alignement des sorties imprimées pour améliorer la lisibilité des rapports.
-
-### Seuil de Ratio de Commentaires pour Coloration
-- **Objectif :** Introduire un seuil de ratio de commentaires en dessous duquel un affichage coloré sera utilisé. Cela aidera à identifier rapidement les fichiers nécessitant plus de commentaires.
 
 ### Exclusion Sélective
 - **Objectif :** Ajouter une option pour exclure certains types de fichiers ou dossiers via des expressions régulières (regex). Cela permettra une analyse plus ciblée.
