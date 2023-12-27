@@ -1,0 +1,54 @@
+{
+    "line_comment_symbols": {
+      "simple": "//",
+      "hash": "#",
+      "dash": "--"
+    },
+    "block_comment_symbols": {
+      "simple": ["/*", "*/"],
+      "html": ["<!--", "-->"]
+    },
+    "comment_symbols_map": {
+      ".c": {
+        "line": "simple",
+        "block": "simple"
+      },
+      ".cpp": {
+        "line": "simple",
+        "block": "simple"
+      },
+      ".h": {
+        "line": "simple",
+        "block": "simple"
+      },
+      ".hpp": {
+        "line": "simple",
+        "block": "simple"
+      },
+      ".cu": {
+        "line": "simple",
+        "block": "simple"
+      },
+      ".py": {
+        "line": "hash",
+        "block": null
+      },
+      ".html": {
+        "line": null,
+        "block": "html"
+      },
+      ".css": {
+        "line": null,
+        "block": "simple"
+      },
+      ".js": {
+        "line": "simple",
+        "block": "simple"
+      },
+      ".sql": {
+        "line": "dash",
+        "block": "simple"
+      }
+    }
+}
+  
