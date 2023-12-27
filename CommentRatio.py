@@ -111,12 +111,14 @@ def calculate_comment_percentage(file_paths, min_ratio):
 
         file_name = file_path.ljust(max_length)
 
-        color = "\033[92m" if comment_ratio >= min_ratio else "\033[91m"
+        color = "\033[92m" if comment_ratio >= min_ratio else (
+            "\033[93m" if min_ratio - 5 <= comment_ratio <= min_ratio + 5 else "\033[91m")
         print(f"File: {file_name} | Comment Percentage: {color}{comment_ratio:.2f}%\033[0m")
 
     if total_chars > 0:
         total_comment_ratio = total_comment_chars / total_chars * 100
-        color = "\033[92m" if total_comment_ratio >= min_ratio else "\033[91m"
+        color = "\033[92m" if total_comment_ratio >= min_ratio else (
+            "\033[93m" if min_ratio - 5 <= total_comment_ratio <= min_ratio + 5 else "\033[91m")
         print(f"Global Comment Percentage: {color}{total_comment_chars / total_chars * 100:.2f}%\033[0m")
     else:
         print("No files found or files are empty.")
