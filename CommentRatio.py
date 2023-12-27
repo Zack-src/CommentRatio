@@ -53,7 +53,7 @@ comment_symbols_map = {
     },
     '.sql': {
         'line': LINE_DASH,
-        'block': None
+        'block': [BLOCK_START_SIMPLE, BLOCK_END_SIMPLE]
     },
 }
 
