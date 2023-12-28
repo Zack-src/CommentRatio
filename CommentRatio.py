@@ -42,9 +42,16 @@ def count_comments(file_path):
                     continue
 
                 if clean_line.startswith(start_symbol):
-                    in_block_comment = True
+
                     start_block_index = clean_line.find(start_symbol)
                     comment_chars += len(clean_line) - start_block_index
+
+                    end_block_index = clean_line.find(end_symbol)
+                    if end_block_index != -1:
+                        comment_chars -= len(end_symbol)
+                    else:
+                        in_block_comment = True
+                    
                     continue
 
             if line_symbol and clean_line.startswith(line_symbol):

@@ -46,5 +46,3 @@ Les contributions pour ajouter de nouvelles fonctionnalités, améliorer la pris
 - **Interface utilisateur graphique**
 
 - **Rapports exportables** : Possibilité d'exporter des rapports (CSV, PDF...)
-
-
