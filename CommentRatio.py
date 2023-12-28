@@ -60,15 +60,16 @@ def calculate_comment_percentage(file_paths, min_ratio):
 
     for file_path in file_paths:
         comment_chars, file_chars = count_comments(file_path)
-        comment_ratio = comment_chars / file_chars * 100
+
+        if file_chars > 0:
+            comment_ratio = comment_chars / file_chars * 100
+            color = "\033[92m" if comment_ratio >= min_ratio else ("\033[93m" if min_ratio - 5 <= comment_ratio <= min_ratio + 5 else "\033[91m")
+            print(f"File: {file_path.ljust(max_length)} | Comment Percentage: {color}{comment_ratio:.2f}%\033[0m")
+        else :
+            print(f"File: {file_path.ljust(max_length)} | Comment Percentage: No calculable comments (empty or non-code file)")
 
         total_comment_chars += comment_chars
         total_chars += file_chars
-
-        file_name = file_path.ljust(max_length)
-
-        color = "\033[92m" if comment_ratio >= min_ratio else ("\033[93m" if min_ratio - 5 <= comment_ratio <= min_ratio + 5 else "\033[91m")
-        print(f"File: {file_name} | Comment Percentage: {color}{comment_ratio:.2f}%\033[0m")
 
     if total_chars > 0:
         total_comment_ratio = total_comment_chars / total_chars * 100
