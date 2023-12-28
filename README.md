@@ -32,17 +32,19 @@ Options :
 
 
 ## Contribution
-Les contributions pour ajouter de nouvelles fonctionnalités, améliorer la prise en charge des langages ou corriger des bugs sont toujours les bienvenues.
+Les contributions pour ajouter de nouvelles fonctionnalités, améliorer la prise en charge des langages ou corriger des bugs sont toujours les bienvenues!
+
 
 ## Améliorations à apporter
 
-
-- **Prise en charge de multiples syntaxes de commentaires** : Étendre le script pour reconnaître et analyser diverses syntaxes de commentaires en fonction des langages de programmation.
+- **Prise en charge de multiples syntaxes de commentaires** : Étendre le script pour reconnaître et analyser les syntaxes de commentaires pour des scripts qui incluent plusieurs langages.
 
 - **Optimisation des performances** : Améliorer l'efficacité du script, en particulier pour les grands projets avec de nombreux fichiers.
 
-- **Documentation détaillée** : Bien que bénéfique, la mise à jour exhaustive de la documentation n'est pas une priorité immédiate.
-- **Interface utilisateur graphique** : Une interface graphique rendrait le script plus accessible, mais n'est pas prioritaire pour l'instant.
-- **Rapports exportables** : La possibilité d'exporter des rapports serait utile, mais peut être mise en attente pour l'instant.
+- **Documentation détaillée**
+
+- **Interface utilisateur graphique**
+
+- **Rapports exportables** : Possibilité d'exporter des rapports (CSV, PDF...)
 
 
