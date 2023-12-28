@@ -17,6 +17,15 @@ def get_comment_symbols(extension, config):
     block_symbols = [config["block_comment_symbols"][block_symbols_key][0], config["block_comment_symbols"][block_symbols_key][1]] if block_symbols_key else None
     return line_symbol, block_symbols
 
+def is_inside_string(line, index):
+    in_string = False
+    for i, char in enumerate(line):
+        if char in ['"', "'"]:
+            in_string = not in_string
+        if i >= index:
+            break
+    return in_string
+
 def count_comments(file_path):
     extension = os.path.splitext(file_path)[1].lower()
     line_symbol, block_symbols = get_comment_symbols(extension, config)
@@ -41,21 +50,20 @@ def count_comments(file_path):
                         comment_chars += len(clean_line)
                     continue
 
-                if clean_line.startswith(start_symbol):
-
-                    start_block_index = clean_line.find(start_symbol)
-                    comment_chars += len(clean_line) - start_block_index
-
-                    end_block_index = clean_line.find(end_symbol)
+                block_comment_start = clean_line.find(start_symbol)
+                if block_comment_start != -1:
+                    in_block_comment = True
+                    comment_chars += len(clean_line) - block_comment_start
+                    end_block_index = clean_line.find(end_symbol, block_comment_start)
                     if end_block_index != -1:
-                        comment_chars -= len(end_symbol)
-                    else:
-                        in_block_comment = True
-                    
+                        comment_chars -= len(clean_line) - end_block_index
+                        in_block_comment = False
                     continue
 
-            if line_symbol and clean_line.startswith(line_symbol):
-                comment_chars += len(clean_line) - len(line_symbol)
+            if line_symbol:
+                line_comment_start = clean_line.find(line_symbol)
+                if line_comment_start != -1 and not is_inside_string(clean_line, line_comment_start):
+                    comment_chars += len(clean_line) - line_comment_start
 
     return comment_chars, total_chars
 
@@ -108,12 +116,17 @@ def is_excluded_file(file, include_ext, exclude_ext, config):
         return True
     return False
 
-def find_files(root_folder, config, include_ext=None, exclude_ext=None, exclude_dir=None):
+def find_files(path, config, include_ext=None, exclude_ext=None, exclude_dir=None):
     found_files = []
     script_file = os.path.abspath(sys.argv[0])
     warned_patterns = set()
 
-    for root, _, file_list in os.walk(root_folder):
+    if os.path.isfile(path):
+        if path != script_file and not is_excluded_file(os.path.basename(path), include_ext, exclude_ext, config):
+            found_files.append(path)
+        return found_files
+
+    for root, _, file_list in os.walk(path):
         if exclude_dir and is_excluded_directory(root, exclude_dir, warned_patterns):
             continue
 
@@ -140,7 +153,7 @@ if __name__ == "__main__":
     file_paths = find_files(args.path, config, args.include_ext, args.exclude_ext, args.exclude_dir)
 
     if not file_paths:
-        print("No matching file found or empty folder.")
+        print("No matching files found.")
         sys.exit(1)
 
     calculate_comment_percentage(file_paths, args.ratio)
