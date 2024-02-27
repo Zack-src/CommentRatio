@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+import csv
 import json
 import argparse
 import colorama
@@ -67,11 +68,13 @@ def count_comments(file_path):
 
     return comment_chars, total_chars
 
-def calculate_comment_percentage(file_paths, min_ratio):
+def calculate_comment_percentage(file_paths, min_ratio, show_failed, export):
     max_length = max(len(path) for path in file_paths)
 
     total_comment_chars = 0
     total_chars = 0
+
+    results = []
 
     for file_path in file_paths:
         comment_chars, file_chars = count_comments(file_path)
@@ -79,7 +82,12 @@ def calculate_comment_percentage(file_paths, min_ratio):
         if file_chars > 0:
             comment_ratio = comment_chars / file_chars * 100
             color = "\033[92m" if comment_ratio >= min_ratio else ("\033[93m" if min_ratio - 5 <= comment_ratio <= min_ratio + 5 else "\033[91m")
-            print(f"File: {file_path.ljust(max_length)} | Comment Percentage: {color}{comment_ratio:.2f}%\033[0m")
+            
+            if show_failed == False or comment_ratio < min_ratio:
+                print(f"File: {file_path.ljust(max_length)} | Comment Percentage: {color}{comment_ratio:.2f}%\033[0m")
+        
+            results.append((file_path, comment_ratio))
+
         else :
             print(f"File: {file_path.ljust(max_length)} | Comment Percentage: No calculable comments (empty or non-code file)")
 
@@ -92,6 +100,14 @@ def calculate_comment_percentage(file_paths, min_ratio):
         print(f"Global Comment Percentage: {color}{total_comment_chars / total_chars * 100:.2f}%\033[0m")
     else:
         print("No files found or files are empty.")
+
+    if export:
+        with open(export, 'w', newline='', encoding='utf-8') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(['File Path', 'Comment Percentage'])
+
+            for file_path, comment_ratio in results:
+                writer.writerow([file_path, f"{comment_ratio:.2f}%"])
 
 def is_excluded_directory(root, exclude_dir, warned_patterns):
     for pattern in exclude_dir:
@@ -148,6 +164,8 @@ if __name__ == "__main__":
     parser.add_argument('--include-ext', nargs='*', help='Extensions to include (e.g., .py .js)')
     parser.add_argument('--exclude-ext', nargs='*', help='Extensions to exclude (e.g., .md .txt)')
     parser.add_argument('--exclude-dir', nargs='*', help='Directories to exclude (supports regex)')
+    parser.add_argument('--show-failed', default=False, help='Print only files that fail to meet the minimum comment percentage')
+    parser.add_argument('--export', type=str, default=None, help='Export result to csv format file')
     args = parser.parse_args()
 
     file_paths = find_files(args.path, config, args.include_ext, args.exclude_ext, args.exclude_dir)
@@ -156,4 +174,4 @@ if __name__ == "__main__":
         print("No matching files found.")
         sys.exit(1)
 
-    calculate_comment_percentage(file_paths, args.ratio)
+    calculate_comment_percentage(file_paths, args.ratio, args.show_failed, args.export)
