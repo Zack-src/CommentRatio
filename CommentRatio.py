@@ -35,7 +35,7 @@ def count_comments(file_path):
     comment_chars = 0
     total_chars = 0
 
-    with open(file_path, 'r') as file:
+    with open(file_path, 'r', encoding='utf-8') as file:
         for line in file:
             clean_line = line.strip()
             total_chars += len(clean_line)
